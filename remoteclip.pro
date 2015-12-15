@@ -7,7 +7,8 @@ QT += qml quick \
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    workerthread.cpp
+    workerthread.cpp \
+    netclip.cpp
 
 RESOURCES += qml.qrc
 
@@ -18,7 +19,8 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    workerthread.h
+    workerthread.h \
+    netclip.h
 
 DISTFILES +=
 

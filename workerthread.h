@@ -30,6 +30,8 @@ public:
 
     void run();
 private:
+    qint16 createTcp(QTcpSocket *socket);
+    qint16 readTcp(QTcpSocket *socket);
     QString _data;
     QTcpSocket * _client;
     QString get_clip();
