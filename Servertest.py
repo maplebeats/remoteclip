@@ -12,11 +12,12 @@ server.bind((host, port))
 
 server.listen(1)
 
-clinet, address = server.accept()
+client, address = server.accept()
 
 while True:
-    data = clinet.recv(BUF_SIZE)
+    data = client.recv(BUF_SIZE)
     print(data)
-    clinet.send("ok")
+    client.send("ok")
+    client.send("ok2")
     time.sleep(1)
 
