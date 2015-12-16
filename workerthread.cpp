@@ -26,6 +26,27 @@ qint16 WorkerThread::createTcp(QTcpSocket *socket)
     return 0;
 }
 
+qint16 WorkerThread::set_clip(QString data)
+{
+    QClipboard *clip = QApplication::clipboard();
+    clip->setText(data);
+    return 0;
+}
+
+QString WorkerThread::readTcp(QTcpSocket *socket)
+{
+    if (socket->waitForReadyRead( 1000 )) {
+        if(socket->bytesAvailable()) {
+            QString clipdata = socket->readAll();
+            qDebug()<<"recv"<<"|"<<clipdata;
+            set_clip(clipdata);
+            _data = clipdata;
+            return clipdata;
+        }
+        return "";
+    }
+    return "";
+}
 
 void WorkerThread::run()
 {
@@ -35,24 +56,13 @@ void WorkerThread::run()
 
         QString text = get_clip();
         if(text == _data){
-            sleep(1);
+            readTcp(_client);
             continue;
         }
         _data = text;
         if(_client->state() != QAbstractSocket::ConnectedState)
             createTcp(_client);
         send_clip();
-        while (_client->state() == QAbstractSocket::ConnectedState) {
-            if (_client->waitForReadyRead( 100 )) {
-                if(_client->bytesAvailable()) {
-                    qDebug()<<"recv"<<"|"<<_client->readAll();
-                    break;
-                }
-            }
-            else {
-                sleep(1);
-            }
-        }
     }
 }
 

@@ -23,18 +23,16 @@ public slots:
 
 public:
     WorkerThread();
-
-    ~WorkerThread(){
-        qDebug()<<"over";
-    }
-
     void run();
-private:
+
     qint16 createTcp(QTcpSocket *socket);
-    qint16 readTcp(QTcpSocket *socket);
+    QString readTcp(QTcpSocket *socket);
+    QString get_clip();
+    qint16 set_clip(QString data);
+private:
     QString _data;
     QTcpSocket * _client;
-    QString get_clip();
+    QString _guid;
 };
 
 #endif // WORKERTHREAD_H

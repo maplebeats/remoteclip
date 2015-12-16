@@ -17,6 +17,7 @@ client, address = server.accept()
 while True:
     data = client.recv(BUF_SIZE)
     print(data)
-    client.send("ok\n")
+    data = input("clip:")
+    client.send(data)
     time.sleep(1)
 

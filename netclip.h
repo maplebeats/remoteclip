@@ -1,11 +1,8 @@
 #ifndef NETCLIP_H
 #define NETCLIP_H
 
-#include <QApplication> //widgets
-#include <QClipboard>   //gui
-#include <QObject>
 
-class NetClip : public QClipboard
+class NetClip
 {
 public:
     NetClip();
