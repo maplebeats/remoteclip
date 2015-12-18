@@ -1,6 +1,6 @@
 #include "workerthread.h"
 
-#define TEST 1
+#define TEST 0
 
 WorkerThread::WorkerThread()
 {
@@ -26,21 +26,22 @@ qint16 WorkerThread::createTcp(QTcpSocket *socket)
     return 0;
 }
 
-qint16 WorkerThread::set_clip(QString data)
+/*
+void WorkerThread::set_clip(QString data)
 {
     QClipboard *clip = QApplication::clipboard();
     clip->setText(data);
-    return 0;
 }
+*/
 
 QString WorkerThread::readTcp(QTcpSocket *socket)
 {
     if (socket->waitForReadyRead( 1000 )) {
         if(socket->bytesAvailable()) {
             QString clipdata = socket->readAll();
-            qDebug()<<"recv"<<"|"<<clipdata;
-            set_clip(clipdata);
+            qDebug()<<"recv"<<"|"<<clipdata<<"|"<<QThread::currentThreadId();
             _data = clipdata;
+            emit set_clip(clipdata);
             return clipdata;
         }
         return "";
@@ -51,9 +52,11 @@ QString WorkerThread::readTcp(QTcpSocket *socket)
 void WorkerThread::run()
 {
     _client = new QTcpSocket();  //不能加到初始化里，初始化的时候线程还没起来!!!
-    createTcp(_client);
+    if(_client->state() != QAbstractSocket::ConnectedState)
+        createTcp(_client);
     while(1){
 
+        sleep(1); //休息一秒，不然主线程来不及更新剪切板导致死循环。
         QString text = get_clip();
         if(text == _data){
             readTcp(_client);

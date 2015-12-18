@@ -21,6 +21,9 @@ class WorkerThread:public QThread
 public slots:
     void send_clip();
 
+signals:
+    void set_clip(QString);
+
 public:
     WorkerThread();
     void run();
@@ -28,7 +31,6 @@ public:
     qint16 createTcp(QTcpSocket *socket);
     QString readTcp(QTcpSocket *socket);
     QString get_clip();
-    qint16 set_clip(QString data);
 private:
     QString _data;
     QTcpSocket * _client;
