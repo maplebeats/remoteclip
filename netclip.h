@@ -6,11 +6,12 @@ class NetClip:public QObject
 {
     Q_OBJECT
 
+public slots:
+    void setClip(QString);
+
 public:
     NetClip();
 
-public slots:
-    void setClip(QString);
 
 };
 

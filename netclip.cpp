@@ -1,5 +1,4 @@
-//#include "netclip.h"
-#include "moc_netclip.cpp"
+#include "netclip.h"
 
 
 NetClip::NetClip()

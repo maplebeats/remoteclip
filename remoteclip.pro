@@ -19,8 +19,8 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
+    netclip.h \
     workerthread.h \
-    netclip.h
 
 DISTFILES +=
 
