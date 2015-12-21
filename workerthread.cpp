@@ -9,8 +9,13 @@ WorkerThread::WorkerThread()
 QString WorkerThread::get_clip()
 {
     QClipboard *clip = QApplication::clipboard();
-    QString text = clip->text();
-    return text;
+    const QMimeData *mimeData = clip->mimeData();
+    if (mimeData->hasText()){
+        return clip->text();
+    }else
+    {
+        return NULL; //unsupport
+    }
 }
 qint16 WorkerThread::createTcp(QTcpSocket *socket)
 {
@@ -58,6 +63,9 @@ void WorkerThread::run()
 
         sleep(1); //休息一秒，不然主线程来不及更新剪切板导致死循环。
         QString text = get_clip();
+        if(text == NULL){
+            continue;
+        }
         if(text == _data){
             readTcp(_client);
             continue;
