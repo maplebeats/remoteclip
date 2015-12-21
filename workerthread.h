@@ -8,6 +8,7 @@
 #include <QtNetwork>
 
 #include <QThread>
+#include <QQueue>
 
 #include <QMessageLogger>
 #include <QDebug>
@@ -35,6 +36,7 @@ private:
     QString _data;
     QTcpSocket * _client;
     QString _guid;
+    QQueue<QString> _queue;
 };
 
 #endif // WORKERTHREAD_H

@@ -72,9 +72,13 @@ void WorkerThread::run()
 
 void WorkerThread::send_clip()
 {
-    QString dataSize = QString("%1").arg(_data.size(),4,10,QChar('0'));
+    QString dataSize = QString("%1").arg(_data.toStdString().length(),4,10,QChar('0'));
     QString sendData = dataSize + _data;
-    qint64 ret = _client->write(sendData.toStdString().c_str(), sendData.size());
-    _client->flush();
-    qDebug() <<"send"<<"|"<<ret<<"|"<<sendData;
+    _queue.enqueue(sendData);
+    while(!_queue.empty()){
+        QString data = _queue.dequeue();
+        qint64 ret = _client->write(data.toStdString().c_str(), sendData.size());
+        _client->flush();
+        qDebug() <<"send"<<"|"<<ret<<"|"<<data;
+    }
 }
