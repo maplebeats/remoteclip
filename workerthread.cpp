@@ -66,7 +66,7 @@ void WorkerThread::run()
         if(text == NULL){
             continue;
         }
-        if(text == _data){
+        else if(text == _data){
             readTcp(_client);
             continue;
         }
@@ -85,7 +85,7 @@ void WorkerThread::send_clip()
     _queue.enqueue(sendData);
     while(!_queue.empty()){
         QString data = _queue.dequeue();
-        qint64 ret = _client->write(data.toStdString().c_str(), sendData.size());
+        qint64 ret = _client->write(data.toStdString().c_str(), data.toStdString().length());
         _client->flush();
         qDebug() <<"send"<<"|"<<ret<<"|"<<data;
     }
