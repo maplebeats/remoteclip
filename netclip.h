@@ -11,6 +11,9 @@ public slots:
 
 public:
     NetClip();
+    void start();
+
+    WorkerThread *work;
 
 
 };

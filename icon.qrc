@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/clip.png</file>
+        <file>images/net.ico</file>
+    </qresource>
+</RCC>

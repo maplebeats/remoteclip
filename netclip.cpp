@@ -3,11 +3,14 @@
 
 NetClip::NetClip()
 {
-    WorkerThread *work = new WorkerThread();
+    work = new WorkerThread();
     connect(work, SIGNAL(set_clip(QString)), this, SLOT(setClip(QString)), Qt::QueuedConnection);
-    work->start();
 }
 
+void NetClip::start()
+{
+    work->start();
+}
 
 void NetClip::setClip(QString data)
 {

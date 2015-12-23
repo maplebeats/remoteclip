@@ -10,7 +10,7 @@ SOURCES += main.cpp \
     workerthread.cpp \
     netclip.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc icon.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -22,5 +22,10 @@ HEADERS += \
     netclip.h \
     workerthread.h \
 
-DISTFILES +=
+DISTFILES += \
+    app.rc
 
+
+RC_FILE = app.rc
+
+ICON = app.icns
