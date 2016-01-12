@@ -8,7 +8,8 @@ CONFIG += c++11
 
 SOURCES += main.cpp \
     workerthread.cpp \
-    netclip.cpp
+    netclip.cpp \
+    systray.cpp
 
 RESOURCES += qml.qrc icon.qrc
 
@@ -21,6 +22,7 @@ include(deployment.pri)
 HEADERS += \
     netclip.h \
     workerthread.h \
+    systray.h
 
 DISTFILES += \
     app.rc
