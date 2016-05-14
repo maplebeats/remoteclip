@@ -13,6 +13,7 @@ class Network:public QThread
 
 public slots:
     qint16 sendClip(QString);
+    void netRecv();
 
 signals:
     void recvClip(QString);

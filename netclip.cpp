@@ -6,8 +6,6 @@ NetClip::NetClip()
 {
     work = new WorkerThread();
     net  = new Network();
-    net->setParent(0)
-            ;
     connect(net, SIGNAL(recvClip(QString)), this, SLOT(setClip(QString)), Qt::QueuedConnection );
     connect(work, SIGNAL(changeClip(QString)), net, SLOT(sendClip(QString)), Qt::QueuedConnection );
 }

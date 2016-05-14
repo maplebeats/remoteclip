@@ -18,16 +18,17 @@ qint16 Network::connect(QTcpSocket *socket)
         return -1;
     }
     socket->write("0000"); //首次注册
+    socket->waitForBytesWritten();
     return 0;
 }
 
 QString Network::recv(QTcpSocket *socket)
 {
+    qDebug()<<__FUNCTION__<<"|recv"<<"|"<<socket->bytesAvailable();
     if(socket->waitForReadyRead(1000))
     {
         if(socket->bytesAvailable()) {
             QString clipdata = socket->readAll();
-            qDebug()<<__FUNCTION__<<"|recv"<<"|"<<clipdata;
             return clipdata;
         }
     }
@@ -36,6 +37,17 @@ QString Network::recv(QTcpSocket *socket)
         connect(Sock);
     }
     return "";
+}
+
+void Network::netRecv()
+{
+    QString recv_clip;
+    recv_clip  = recv(Sock);
+    if(!recv_clip.isEmpty())
+    {
+        qDebug()<<__FUNCTION__ <<"|recv clip"<<"|"<<recv_clip;
+        emit recvClip(recv_clip);
+    }
 }
 
 qint16 Network::send(QTcpSocket *socket)
@@ -47,24 +59,17 @@ qint16 Network::send(QTcpSocket *socket)
     while(!_queue.empty()){
         QString data = _queue.dequeue();
         socket->write(data.toStdString().c_str(), data.toStdString().length());
-        socket->flush();
+        socket->waitForBytesWritten();
     }
     return 0;
 }
 
 void Network::mainloop()
 {
-    QString recv_clip;
     while(1)
     {
         if(!_queue.empty())
             send(Sock);
-        recv_clip  = recv(Sock);
-        if(!recv_clip.isEmpty())
-        {
-            qDebug()<<__FUNCTION__ <<"|recv clip"<<"|"<<recv_clip;
-            emit recvClip(recv_clip);
-        }
         sleep(1);
     }
 }
@@ -87,6 +92,7 @@ void Network::run()
     Sock = new QTcpSocket();
     if(Sock->state() != QAbstractSocket::ConnectedState)
         connect(Sock);
+    QObject::connect( Sock, SIGNAL(readyRead()), this, SLOT(netRecv()) );
     mainloop();
 }
 
