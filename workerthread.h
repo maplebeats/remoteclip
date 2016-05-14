@@ -15,26 +15,23 @@
 
 #include <QObject>
 
+#include "network.h"
+
 class WorkerThread:public QThread
 {
     Q_OBJECT
 
-public slots:
-    void send_clip();
-
 signals:
-    void set_clip(QString);
+    void changeClip(QString);
 
 public:
     WorkerThread();
     void run();
 
-    qint16 createTcp(QTcpSocket *socket);
-    QString readTcp(QTcpSocket *socket);
     QString get_clip();
 private:
+    void workloop();
     QString _data;
-    QTcpSocket * _client;
     QString _guid;
     QQueue<QString> _queue;
 };

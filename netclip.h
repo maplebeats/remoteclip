@@ -14,6 +14,7 @@ public:
     void start();
 
     WorkerThread *work;
+    Network *net;
 
 
 };
